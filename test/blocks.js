@@ -61,7 +61,7 @@ describe('Blocks', () => {
         });
 
     redisAppender
-      .push_block(block)
+      .pushBlock(block)
       .then(checkBlock)
       .then(() => done())
       .catch(err => done(err));
@@ -83,7 +83,7 @@ describe('Blocks', () => {
       .lpush('blocks:block:stack', block3.id)
       .exec()
       .then(() => 
-        redisAppender.load_blocks([block1.id, block2.id, block3.id])
+        redisAppender.loadBlocks([block1.id, block2.id, block3.id])
           .then(blockchain => expect(blockchain).to.deep.equal([block3, block2, block1]))
       )
       .then(() => done())
