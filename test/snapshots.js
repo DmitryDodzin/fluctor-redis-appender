@@ -12,7 +12,8 @@ const { Appender } = require('../index');
 const initialSnapshot = {
   id: "dd8457fd-d543-4221-abc0-a0039f958d45",
   state: { value: 1 },
-  timestamp: Date.now()
+  timestamp: Date.now(),
+  block: "98a87d3d-6a1a-40af-a370-0bdd98c058d0"
 };
 
 const initialBlock = {
@@ -55,6 +56,7 @@ describe('Snapshots', () => {
 
   it('Latest', done => {
     expect(redisAppender.getLatestSnapshot())
+      .to.be.fulfilled.and
       .to.eventually.equal(initialSnapshot.id)
       .and.notify(done);
   });
@@ -71,6 +73,7 @@ describe('Snapshots', () => {
       id: '24e475cf-5f19-4e3b-83ed-e7c157c1b9eb',
       state: { value: 2 },
       timestamp: Date.now(),
+      block: "98a87d3d-6a1a-40af-a370-0bdd98c058d0",
       fake: 'keys',
       to: {
         fool: 'the system'
@@ -88,7 +91,8 @@ describe('Snapshots', () => {
           expect(snapshot).to.deep.equal({
             id: snapshot.id,
             state: snapshot.state,
-            timestamp: snapshot.timestamp
+            timestamp: snapshot.timestamp,
+            block: snapshot.block
           });
 
           let snapshots = result[1][1];
