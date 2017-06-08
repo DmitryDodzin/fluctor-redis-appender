@@ -8,9 +8,9 @@ const METADATA = {
   SUPPORT: 0x00000111
 };
 
-const appender = require('./lib/appender');
+const Appender = require('./lib/appender');
 
 module.exports = {
   METADATA,
-  appender
+  Appender
 };
