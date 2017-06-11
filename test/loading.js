@@ -70,6 +70,20 @@ describe('Loading', () => {
       .catch(err => done(err));
   });
 
+  it('No Snapshot', done => {
+    redisClient
+      .pipeline()
+      .del('snapshots:snapshot:snapshots')
+      .exec()
+      .then(() => redisAppender.load())
+      .then(({ state, blockchain }) => {
+        expect(blockchain).to.deep.equal([fistBlock, secondBlock]);
+
+        done();
+      })
+      .catch(err => done(err));
+  });
+
   after(() => {
     redisClient.quit();
   });
