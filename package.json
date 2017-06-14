@@ -1,6 +1,6 @@
 {
   "name": "fluctor-redis-appender",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Fluctor's Redis Appender",
   "main": "index.js",
   "scripts": {

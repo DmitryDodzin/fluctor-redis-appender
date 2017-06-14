@@ -39,7 +39,7 @@ describe('Loading', () => {
         redisClient
           .pipeline()
           .set('snapshots:snapshot:' + initialSnapshot.id, JSON.stringify(initialSnapshot))
-          .lpush('snapshots:snapshot:snapshots', initialSnapshot.id)
+          .rpush('snapshots:snapshot:snapshots', initialSnapshot.id)
           .set('blocks:block:' + fistBlock.id, JSON.stringify(fistBlock))
           .set('blocks:block:' + secondBlock.id, JSON.stringify(secondBlock))
           .lpush('blocks:block:stack', fistBlock.id)
