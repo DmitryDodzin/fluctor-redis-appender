@@ -10,6 +10,13 @@ const { Appender } = require('../index');
 
 
 const initialSnapshot = {
+  id: "e5a06d99-0bcb-4832-8b9c-582a074a33ad",
+  state: { value: 0 },
+  timestamp: Date.now() - 100,
+  block: "98a87d3d-6a1a-40af-a370-0bdd98c058d0"
+};
+
+const latestSnapshot = {
   id: "dd8457fd-d543-4221-abc0-a0039f958d45",
   state: { value: 1 },
   timestamp: Date.now(),
@@ -36,7 +43,9 @@ describe('Snapshots', () => {
         redisClient
           .pipeline()
           .set('snapshots:snapshot:' + initialSnapshot.id, JSON.stringify(initialSnapshot))
-          .lpush('snapshots:snapshot:snapshots', initialSnapshot.id)
+          .set('snapshots:snapshot:' + latestSnapshot.id, JSON.stringify(latestSnapshot))
+          .rpush('snapshots:snapshot:snapshots', initialSnapshot.id)
+          .rpush('snapshots:snapshot:snapshots', latestSnapshot.id)
           .set('blocks:block:' + initialBlock.id, JSON.stringify(initialBlock))
           .lpush('blocks:block:stack', initialBlock.id)
           .exec()
@@ -57,13 +66,7 @@ describe('Snapshots', () => {
   it('Latest', done => {
     expect(redisAppender.getLatestSnapshot())
       .to.be.fulfilled.and
-      .to.eventually.equal(initialSnapshot.id)
-      .and.notify(done);
-  });
-
-  it('Push', done => {
-    expect(redisAppender.getLatestSnapshot())
-      .to.eventually.equal(initialSnapshot.id)
+      .to.eventually.equal(latestSnapshot.id)
       .and.notify(done);
   });
 
